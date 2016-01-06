@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">HomeFinance</string>
+    <string name="btnAdd">Add</string>
+    <string name="btnRemove">Remove</string>
+    <string name="edtextName">Name</string>
+    <string-array name="menu_items">
+        <item>user list</item>
+        <item>expense dictionary</item>
+        <item>expense</item>
+        <item>income</item>
+    </string-array>
+</resources>
