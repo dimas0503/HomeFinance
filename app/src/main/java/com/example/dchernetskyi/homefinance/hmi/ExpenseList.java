@@ -1,13 +1,11 @@
 package com.example.dchernetskyi.homefinance.hmi;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -20,51 +18,50 @@ import com.example.dchernetskyi.homefinance.service.Service;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by dchernetskyi on 02.01.2016.
- */
-public class UserList extends Activity implements OnClickListener{
+import static android.view.View.*;
 
-    private ListView lvUserList;
+/**
+ * Created by Dima on 07.01.2016.
+ */
+public class ExpenseList extends Activity implements OnClickListener{
+    private ListView lvExpenseItems;
     private Map<Integer, String> contextMenu;
     private Cursor cursor;
     private SimpleCursorAdapter scAdapter;
     private Service service;
     private HFDB dbHelper;
-    private EditText etUserName;
+    private EditText etExpenseItem;
     private String[] from = new String[] {dbHelper.column_NAME};
-    private int[] to = new int[]{R.id.etUserListItem};
-
-
+    private int[] to = new int[]{R.id.etExpenseListItem};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.user_list);
+        setContentView(R.layout.expense_list);
 
-        lvUserList = (ListView) findViewById(R.id.lvUser_List);
-        etUserName = (EditText) findViewById(R.id.etUserName);
+        service = new Service(this);
 
+        lvExpenseItems = (ListView) findViewById(R.id.lvExpenseItemList);
+        etExpenseItem = (EditText) findViewById(R.id.etExpenseItemName);
 
         contextMenu = new HashMap<>();
-        contextMenu.put(1,"remove user");
+        contextMenu.put(1,"remove item");
 
-        service = new Service(getApplicationContext());
-        updateUserList();
-        registerForContextMenu(lvUserList);
+        updateExpenseItemList();
+        registerForContextMenu(lvExpenseItems);
     }
 
-    private void updateUserList(){
-        cursor = service.getUserList();
-        scAdapter = new SimpleCursorAdapter(this,R.layout.user_list_item,cursor,from,to,1);
-        lvUserList.setAdapter(scAdapter);
+    private void updateExpenseItemList(){
+        cursor = service.getExpenseList();
+        scAdapter = new SimpleCursorAdapter(this,R.layout.exoense_list_item,cursor,from,to,1);
+        lvExpenseItems.setAdapter(scAdapter);
     }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         switch (v.getId()){
-            case R.id.lvUser_List:
+            case R.id.lvExpenseItemList:
                 menu.add(0,1,0,contextMenu.get(1));
                 break;
         }
@@ -75,8 +72,8 @@ public class UserList extends Activity implements OnClickListener{
         switch (item.getItemId()){
             case 1:
                 AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-                service.delUser(acmi.id);
-                updateUserList();
+                service.delExpenseItem(acmi.id);
+                updateExpenseItemList();
                 return true;
         }
         return super.onContextItemSelected(item);
@@ -85,10 +82,10 @@ public class UserList extends Activity implements OnClickListener{
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.btnAddNewUser:
-                service.addUser(etUserName.getText().toString());
-                etUserName.setText(null);
-                updateUserList();
+            case R.id.btnAddNewExpenseItem:
+                service.addExpenseItem(etExpenseItem.getText().toString());
+                etExpenseItem.setText(null);
+                updateExpenseItemList();
                 break;
         }
     }

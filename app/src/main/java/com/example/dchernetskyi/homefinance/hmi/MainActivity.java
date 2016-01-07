@@ -33,6 +33,9 @@ public class MainActivity extends Activity{
                     case 0:
                         startActivity(new Intent(getApplicationContext(),UserList.class));
                         break;
+                    case 1:
+                        startActivity(new Intent(getApplicationContext(),ExpenseList.class));
+                        break;
                 }
             }
         });

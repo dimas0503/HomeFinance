@@ -6,7 +6,6 @@
     <string-array name="menu_items">
         <item>user list</item>
         <item>expense dictionary</item>
-        <item>expense</item>
-        <item>income</item>
+        <item>add</item>
     </string-array>
 </resources>

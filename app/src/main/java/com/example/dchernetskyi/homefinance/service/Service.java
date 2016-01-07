@@ -46,16 +46,35 @@ public class Service {
         openRWDatabase();
         ContentValues cv = new ContentValues();
         cv.put(dbHelper.column_NAME, name);
-        db.insert(dbHelper.table_Name, null, cv);
+        db.insert(dbHelper.table_Users, null, cv);
     }
+
+    public void addExpenseItem(String name){
+        openRWDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(dbHelper.column_ExpenseItemName, name);
+        db.insert(dbHelper.table_ExpenseItems, null, cv);
+    }
+
 
     public void delUser(long id){
         openRWDatabase();
-        db.delete(dbHelper.table_Name,dbHelper.column_ID + "=" + id,null);
+        db.delete(dbHelper.table_Users, dbHelper.column_ID + "=" + id, null);
     }
+
+    public void delExpenseItem(long id){
+        openRWDatabase();
+        db.delete(dbHelper.table_ExpenseItems, dbHelper.column_ID + "=" + id, null);
+    }
+
 
     public Cursor getUserList(){
         openRWDatabase();
-        return db.query(dbHelper.table_Name,null,null,null,null,null,null,null);
+        return db.query(dbHelper.table_Users,null,null,null,null,null,null,null);
+    }
+
+    public Cursor getExpenseList(){
+        openRWDatabase();
+        return db.query(dbHelper.table_ExpenseItems,null,null,null,null,null,null,null);
     }
 }

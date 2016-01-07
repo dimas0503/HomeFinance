@@ -15,7 +15,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".hmi.UserList"></activity>
-        <activity android:name=".hmi.AddNewUser"></activity>
+        <activity android:name=".hmi.ExpenseList"></activity>
     </application>
 
 </manifest>
