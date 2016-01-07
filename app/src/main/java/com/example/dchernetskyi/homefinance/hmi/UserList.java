@@ -8,6 +8,7 @@ import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -47,8 +48,7 @@ public class UserList extends Activity implements OnClickListener{
 
 
         contextMenu = new HashMap<>();
-        contextMenu.put(1,"add user");
-        contextMenu.put(2,"remove user");
+        contextMenu.put(1,"remove user");
 
         service = new Service(getApplicationContext());
         updateUserList();
@@ -67,7 +67,6 @@ public class UserList extends Activity implements OnClickListener{
         switch (v.getId()){
             case R.id.lvUser_List:
                 menu.add(0,1,0,contextMenu.get(1));
-                menu.add(0,2,0,contextMenu.get(2));
                 break;
         }
     }
@@ -76,7 +75,10 @@ public class UserList extends Activity implements OnClickListener{
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case 1:
-                new Intent(getApplicationContext(),UserList.class);
+                AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+                service.delUser(acmi.id);
+                updateUserList();
+                return true;
         }
         return super.onContextItemSelected(item);
     }

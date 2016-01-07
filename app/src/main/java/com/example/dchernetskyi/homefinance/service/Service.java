@@ -49,6 +49,11 @@ public class Service {
         db.insert(dbHelper.table_Name, null, cv);
     }
 
+    public void delUser(long id){
+        openRWDatabase();
+        db.delete(dbHelper.table_Name,dbHelper.column_ID + "=" + id,null);
+    }
+
     public Cursor getUserList(){
         openRWDatabase();
         return db.query(dbHelper.table_Name,null,null,null,null,null,null,null);
