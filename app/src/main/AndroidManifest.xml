@@ -11,15 +11,11 @@
         <activity android:name=".hmi.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".hmi.UserList">
-        </activity>
-        <activity android:name=".hmi.AddNewUser">
-
-        </activity>
+        <activity android:name=".hmi.UserList"></activity>
+        <activity android:name=".hmi.AddNewUser"></activity>
     </application>
 
 </manifest>
