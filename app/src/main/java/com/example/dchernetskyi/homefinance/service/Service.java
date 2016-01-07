@@ -67,6 +67,20 @@ public class Service {
         db.delete(dbHelper.table_ExpenseItems, dbHelper.column_ID + "=" + id, null);
     }
 
+    public Cursor getExpensesJournal(){
+        openRWDatabase();
+        return db.query(dbHelper.table_Journal,null,null,null,null,null,null);
+    }
+
+    public void storeToJournal(Long date, String uName, String expItem, Double spendAm){
+        openRWDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(dbHelper.column_JournalDate,date);
+        cv.put(dbHelper.column_JournalUserName,uName);
+        cv.put(dbHelper.column_JournalExpenseItem,expItem);
+        cv.put(dbHelper.column_JournalSpend,spendAm);
+        db.insert(dbHelper.table_Journal,null,cv);
+    }
 
     public Cursor getUserList(){
         openRWDatabase();

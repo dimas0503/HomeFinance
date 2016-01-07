@@ -23,6 +23,13 @@ public class HFDB extends SQLiteOpenHelper {
     public static final String table_ExpenseItems = "EXPENSE_ITEMS";
     public static final String column_ExpenseItemName = "NAME";
 
+    //Expense journal table
+    public static final String table_Journal = "JOURNAL";
+    public static final String column_JournalDate = "DATE";
+    public static final String column_JournalUserName = "USER";
+    public static final String column_JournalExpenseItem = "EXPENSE_ITEM";
+    public static final String column_JournalSpend = "AMOUNT_SPEND";
+
     //Create scripts
     private static final String createUserTable =
             "create table " + table_Users + " ("
@@ -34,6 +41,15 @@ public class HFDB extends SQLiteOpenHelper {
             + column_NAME + " text"
             + ");";
 
+    private static final String createJournalTable =
+            "create table " + table_Journal + " ("
+            + column_ID + " integer primary key autoincrement,"
+            + column_JournalDate + " integer,"
+            + column_JournalUserName + " text,"
+            + column_JournalExpenseItem + " text,"
+            + column_JournalSpend + " real"
+            + ");";
+
     public HFDB(Context context) {
         super(context, dbName, null, dbVersion);
     }
@@ -42,6 +58,7 @@ public class HFDB extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(createUserTable);
         db.execSQL(createExpensesTable);
+        db.execSQL(createJournalTable);
     }
 
     @Override

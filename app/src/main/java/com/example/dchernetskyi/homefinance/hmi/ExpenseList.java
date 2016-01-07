@@ -53,7 +53,7 @@ public class ExpenseList extends Activity implements OnClickListener{
 
     private void updateExpenseItemList(){
         cursor = service.getExpenseList();
-        scAdapter = new SimpleCursorAdapter(this,R.layout.exoense_list_item,cursor,from,to,1);
+        scAdapter = new SimpleCursorAdapter(this,R.layout.expense_list_item,cursor,from,to,1);
         lvExpenseItems.setAdapter(scAdapter);
     }
 
