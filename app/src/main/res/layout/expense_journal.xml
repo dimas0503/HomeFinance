@@ -30,6 +30,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/spinExpenseList" />
 
+            <!--TODO place text in strings-->
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -38,6 +39,7 @@
                 android:hint="spend amount"
                 android:id="@+id/etValueSpend" />
 
+            <!--TODO place text in strings-->
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -61,6 +63,7 @@
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/lvExpenseJournal"/>
+        android:id="@+id/lvExpenseJournal"
+        android:clickable="true"/>
 
 </LinearLayout>

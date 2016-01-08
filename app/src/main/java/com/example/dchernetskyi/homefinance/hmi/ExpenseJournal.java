@@ -4,8 +4,11 @@ import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -17,6 +20,9 @@ import android.widget.Toast;
 import com.example.dchernetskyi.homefinance.R;
 import com.example.dchernetskyi.homefinance.dao.HFDB;
 import com.example.dchernetskyi.homefinance.service.Service;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Dima on 07.01.2016.
@@ -42,6 +48,7 @@ public class ExpenseJournal extends Activity implements OnClickListener{
     private int[] toExpenseList = new int[]{R.id.spinExpenseListItem};
     private int[] toExpenseJournal = new int[]{R.id.tvJournalDate,R.id.tvJournalUserName,R.id.tvJournalExpenseItem,R.id.tvJournalSpendAmount};
 
+    private Map<Integer, String> contextMenu;
     private Spinner spinnerUserName;
     private Spinner spinnerExpenseItems;
     private CalendarView cvJournalDate;
@@ -64,10 +71,14 @@ public class ExpenseJournal extends Activity implements OnClickListener{
         lvExpensesJournal = (ListView) findViewById(R.id.lvExpenseJournal);
         etJournalComment = (TextView) findViewById(R.id.etComment);
 
+        contextMenu = new HashMap<>();
+        contextMenu.put(1,"remove record");
+
         service = new Service(getApplicationContext());
         updateUserList();
         updateExpenseList();
         updateExpenseJournal();
+        registerForContextMenu(lvExpensesJournal);
     }
 
     private void updateUserList(){
@@ -86,6 +97,29 @@ public class ExpenseJournal extends Activity implements OnClickListener{
         lvExpensesJournal.setAdapter(service.getExpensesJournal());
 
     }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        switch (v.getId()){
+            case R.id.lvExpenseJournal:
+                menu.add(0,1,0,contextMenu.get(1));
+                break;
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case 1:
+                AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+                service.delJournalRecord(acmi.id);
+                updateExpenseJournal();
+                return true;
+        }
+        return super.onContextItemSelected(item);
+    }
+
 
     @Override
     public void onClick(View v) {

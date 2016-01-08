@@ -8,12 +8,14 @@
         android:layout_height="wrap_content"
         android:id="@+id/tvJournalDate"
         android:inputType="date"
+        android:clickable="true"
         android:textSize="20dp" />
 
     <TextView
         android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:id="@+id/tvJournalUserName"
+        android:clickable="true"
         android:layout_marginLeft="1dp"
         android:textSize="20dp" />
 
@@ -21,6 +23,7 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:id="@+id/tvJournalExpenseItem"
+        android:clickable="true"
         android:layout_marginLeft="1dp"
         android:textSize="20dp" />
 
@@ -28,6 +31,7 @@
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:id="@+id/tvJournalSpendAmount"
+        android:clickable="true"
         android:layout_marginLeft="1dp"
         android:textSize="20dp" />
 
@@ -35,6 +39,7 @@
         android:layout_width="match_parent"
         android:scrollHorizontally="true"
         android:layout_height="wrap_content"
+        android:clickable="true"
         android:id="@+id/tvJournalComment"
         android:layout_marginLeft="1dp"
         android:textSize="20dp"

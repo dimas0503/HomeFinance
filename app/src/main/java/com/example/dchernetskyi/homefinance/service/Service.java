@@ -70,6 +70,11 @@ public class Service {
         db.delete(dbHelper.table_ExpenseItems, dbHelper.column_ID + "=" + id, null);
     }
 
+    public void delJournalRecord(long id){
+        openRWDatabase();
+        db.delete(dbHelper.table_Journal, dbHelper.column_ID + "=" + id, null);
+    }
+
     public JournalListViewCursorAdapter getExpensesJournal(){
         openRWDatabase();
         cursor = db.query(dbHelper.table_Journal,null,null,null,null,null,dbHelper.column_ID + " DESC");
@@ -77,8 +82,6 @@ public class Service {
         journalCursorAdapter.setDbHelper(dbHelper);
         return journalCursorAdapter;
     }
-
-
 
     public void storeToJournal(Long date, String uName, String expItem, Double spendAm, String comment){
         openRWDatabase();

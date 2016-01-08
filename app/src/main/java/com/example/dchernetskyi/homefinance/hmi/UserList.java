@@ -45,7 +45,6 @@ public class UserList extends Activity implements OnClickListener{
         lvUserList = (ListView) findViewById(R.id.lvUser_List);
         etUserName = (EditText) findViewById(R.id.etUserName);
 
-
         contextMenu = new HashMap<>();
         contextMenu.put(1,"remove user");
 
