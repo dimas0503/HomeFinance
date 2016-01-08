@@ -29,6 +29,7 @@ public class HFDB extends SQLiteOpenHelper {
     public static final String column_JournalUserName = "USER";
     public static final String column_JournalExpenseItem = "EXPENSE_ITEM";
     public static final String column_JournalSpend = "AMOUNT_SPEND";
+    public static final String column_JournalComment = "COMMENT";
 
     //Create scripts
     private static final String createUserTable =
@@ -47,7 +48,8 @@ public class HFDB extends SQLiteOpenHelper {
             + column_JournalDate + " integer,"
             + column_JournalUserName + " text,"
             + column_JournalExpenseItem + " text,"
-            + column_JournalSpend + " real"
+            + column_JournalSpend + " real,"
+            + column_JournalComment + " text"
             + ");";
 
     public HFDB(Context context) {

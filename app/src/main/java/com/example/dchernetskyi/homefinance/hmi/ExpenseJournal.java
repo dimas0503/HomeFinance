@@ -6,19 +6,17 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
 import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.dchernetskyi.homefinance.R;
 import com.example.dchernetskyi.homefinance.dao.HFDB;
 import com.example.dchernetskyi.homefinance.service.Service;
-
-import static android.widget.AdapterView.*;
 
 /**
  * Created by Dima on 07.01.2016.
@@ -42,13 +40,14 @@ public class ExpenseJournal extends Activity implements OnClickListener{
 
     private int[] toUserList = new int[]{R.id.spinUserListItem};
     private int[] toExpenseList = new int[]{R.id.spinExpenseListItem};
-    private int[] toExpenseJournal = new int[]{R.id.spinJournalDate,R.id.spinJournalUserName,R.id.spinJournalExpenseItem,R.id.spinJournalSpendAmount};
+    private int[] toExpenseJournal = new int[]{R.id.tvJournalDate,R.id.tvJournalUserName,R.id.tvJournalExpenseItem,R.id.tvJournalSpendAmount};
 
     private Spinner spinnerUserName;
     private Spinner spinnerExpenseItems;
     private CalendarView cvJournalDate;
     private EditText etMoneySpend;
     private ListView lvExpensesJournal;
+    private TextView etJournalComment;
 
     private String TAG = "MY_LOG";
 
@@ -63,6 +62,7 @@ public class ExpenseJournal extends Activity implements OnClickListener{
         cvJournalDate = (CalendarView) findViewById(R.id.calViewJournalDate);
         etMoneySpend = (EditText) findViewById(R.id.etValueSpend);
         lvExpensesJournal = (ListView) findViewById(R.id.lvExpenseJournal);
+        etJournalComment = (TextView) findViewById(R.id.etComment);
 
         service = new Service(getApplicationContext());
         updateUserList();
@@ -83,24 +83,31 @@ public class ExpenseJournal extends Activity implements OnClickListener{
     }
 
     private void updateExpenseJournal(){
-        cursorExpensesJournal = service.getExpensesJournal();
-        scAdapterExpensesJournal = new SimpleCursorAdapter(this,R.layout.expense_journal_list_item, cursorExpensesJournal, fromExpenseJournal, toExpenseJournal, 1);
-        lvExpensesJournal.setAdapter(scAdapterExpensesJournal);
+        lvExpensesJournal.setAdapter(service.getExpensesJournal());
+
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnAddToJournal:
+                boolean canInsert = true;
                 String userName = ((TextView) spinnerUserName.getSelectedView().findViewById(R.id.spinUserListItem)).getText().toString();
-                String expenseItem = ((TextView) spinnerUserName.getSelectedView().findViewById(R.id.spinUserListItem)).getText().toString();
-                Double spendAmount = 0.0;
+                String expenseItem = ((TextView) spinnerExpenseItems.getSelectedView().findViewById(R.id.spinExpenseListItem)).getText().toString();
+                Double spendAmount = null;
                 if(etMoneySpend != null && etMoneySpend.getText().toString().equals("") == false){
                     spendAmount = Double.parseDouble(etMoneySpend.getText().toString());
+                }else {
+                    Toast.makeText(this,"fill money spend",Toast.LENGTH_SHORT).show();
+                    return;
                 }
+                String comment = etJournalComment.getText().toString();
+
                 Log.d(TAG, cvJournalDate.getDate() + "|" + etMoneySpend + " | " + " | " + userName + " | " + spendAmount + "");
-                service.storeToJournal(cvJournalDate.getDate(),userName,expenseItem,spendAmount);
+                service.storeToJournal(cvJournalDate.getDate(), userName, expenseItem, spendAmount,comment);
+                Toast.makeText(this,"Record added",Toast.LENGTH_SHORT).show();
                 etMoneySpend.setText(null);
+                etJournalComment.setText(null);
                 updateExpenseJournal();
                 break;
         }

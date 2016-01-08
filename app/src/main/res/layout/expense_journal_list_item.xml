@@ -4,35 +4,41 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:id="@+id/spinJournalDate"
-        android:layout_marginLeft="20dp"
-        android:textSize="20dp"
-        android:layout_weight="1"/>
+        android:id="@+id/tvJournalDate"
+        android:inputType="date"
+        android:textSize="20dp" />
+
+    <TextView
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvJournalUserName"
+        android:layout_marginLeft="1dp"
+        android:textSize="20dp" />
+
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvJournalExpenseItem"
+        android:layout_marginLeft="1dp"
+        android:textSize="20dp" />
+
+    <TextView
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvJournalSpendAmount"
+        android:layout_marginLeft="1dp"
+        android:textSize="20dp" />
 
     <TextView
         android:layout_width="match_parent"
+        android:scrollHorizontally="true"
         android:layout_height="wrap_content"
-        android:id="@+id/spinJournalUserName"
-        android:layout_marginLeft="20dp"
+        android:id="@+id/tvJournalComment"
+        android:layout_marginLeft="1dp"
         android:textSize="20dp"
-        android:layout_weight="1"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinJournalExpenseItem"
-        android:layout_marginLeft="20dp"
-        android:textSize="20dp"
-        android:layout_weight="1"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinJournalSpendAmount"
-        android:layout_marginLeft="20dp"
-        android:textSize="20dp"
-        android:layout_weight="1"/>
+        android:elegantTextHeight="false"
+        android:singleLine="false" />
 
 </LinearLayout>

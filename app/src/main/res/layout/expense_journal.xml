@@ -30,18 +30,21 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/spinExpenseList" />
 
-            <AutoCompleteTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New AutoCompleteTextView"
-                android:id="@+id/autoCompleteTextView" />
-
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
                 android:ems="10"
+                android:hint="spend amount"
                 android:id="@+id/etValueSpend" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:ems="10"
+                android:hint="comment"
+                android:id="@+id/etComment" />
 
             <Button
                 style="?android:attr/buttonStyleSmall"
@@ -58,6 +61,6 @@
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/lvExpenseJournal" />
+        android:id="@+id/lvExpenseJournal"/>
 
 </LinearLayout>
