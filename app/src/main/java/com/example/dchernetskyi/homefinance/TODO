@@ -1,10 +1,13 @@
+//High importance
+TODO Journal filtering
+//Mid importance
+//Low importance
 TODO Add checkboxes Income/Expense to expense screen
 TODO User defined sort list views
 TODO Highlight event when clicking on expense journal list view
 TODO Multi delete
 TODO Export to file
 TODO Sync with other devices
-TODO Journal filtering
 TODO Reports tab
 TODO Screens as frames
 TODO Logic from HMI to Service
