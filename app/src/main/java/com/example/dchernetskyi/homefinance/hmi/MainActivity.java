@@ -59,10 +59,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                             .setText(mAppSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
-/*
-        final ActionBar actionBar = getActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-*/
+
         item_list = (ListView) findViewById(R.id.main_list);
         menus = getResources().getStringArray(R.array.menu_items);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,menus);

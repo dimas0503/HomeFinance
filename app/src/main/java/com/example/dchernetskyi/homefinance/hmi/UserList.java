@@ -1,13 +1,14 @@
 package com.example.dchernetskyi.homefinance.hmi;
 
-import android.app.Activity;
-import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -23,7 +24,7 @@ import java.util.Map;
 /**
  * Created by dchernetskyi on 02.01.2016.
  */
-public class UserList extends Activity implements OnClickListener{
+public class UserList extends Fragment implements OnClickListener{
 
     private ListView lvUserList;
     private Map<Integer, String> contextMenu;
@@ -36,26 +37,25 @@ public class UserList extends Activity implements OnClickListener{
     private int[] to = new int[]{R.id.etUserListItem};
 
 
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.user_list);
-
-        lvUserList = (ListView) findViewById(R.id.lvUser_List);
-        etUserName = (EditText) findViewById(R.id.etUserName);
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.user_list, container, false);
+        Bundle args = getArguments();
+        lvUserList = (ListView) rootView.findViewById(R.id.lvUser_List);
+        etUserName = (EditText) rootView.findViewById(R.id.etUserName);
         contextMenu = new HashMap<>();
         contextMenu.put(1,"remove user");
 
-        service = new Service(getApplicationContext());
+        service = new Service(getContext());
         updateUserList();
         registerForContextMenu(lvUserList);
+
+        return rootView;
     }
 
     private void updateUserList(){
         cursor = service.getUserList();
-        scAdapter = new SimpleCursorAdapter(this,R.layout.user_list_item,cursor,from,to,1);
+        scAdapter = new SimpleCursorAdapter(getContext(),R.layout.user_list_item,cursor,from,to,1);
         lvUserList.setAdapter(scAdapter);
     }
 
