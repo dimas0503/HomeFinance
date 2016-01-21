@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -24,7 +25,7 @@ import java.util.Map;
 /**
  * Created by dchernetskyi on 02.01.2016.
  */
-public class UserList extends Fragment implements OnClickListener{
+public class UserList extends Fragment{
 
     private ListView lvUserList;
     private Map<Integer, String> contextMenu;
@@ -43,6 +44,15 @@ public class UserList extends Fragment implements OnClickListener{
         Bundle args = getArguments();
         lvUserList = (ListView) rootView.findViewById(R.id.lvUser_List);
         etUserName = (EditText) rootView.findViewById(R.id.etUserName);
+        Button btnAddNewUser = (Button) rootView.findViewById(R.id.btnAddNewUser);
+        btnAddNewUser.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                service.addUser(etUserName.getText().toString());
+                etUserName.setText(null);
+                updateUserList();
+            }
+        });
         contextMenu = new HashMap<>();
         contextMenu.put(1,"remove user");
 
@@ -64,7 +74,7 @@ public class UserList extends Fragment implements OnClickListener{
         super.onCreateContextMenu(menu, v, menuInfo);
         switch (v.getId()){
             case R.id.lvUser_List:
-                menu.add(0,1,0,contextMenu.get(1));
+                menu.add(0, 1, 0, contextMenu.get(1));
                 break;
         }
     }
@@ -79,16 +89,5 @@ public class UserList extends Fragment implements OnClickListener{
                 return true;
         }
         return super.onContextItemSelected(item);
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.btnAddNewUser:
-                service.addUser(etUserName.getText().toString());
-                etUserName.setText(null);
-                updateUserList();
-                break;
-        }
     }
 }
