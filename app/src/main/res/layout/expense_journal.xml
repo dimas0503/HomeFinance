@@ -12,7 +12,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/calViewJournalDate"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:transitionGroup="false" />
 
         <LinearLayout
             android:orientation="vertical"
@@ -30,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/spinExpenseList" />
 
-            <!--TODO place text in strings-->
+            <!--TODO place text in strings file-->
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -55,6 +56,13 @@
                 android:text="@string/btnAdd"
                 android:onClick="onClick"
                 android:id="@+id/btnAddToJournal" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/btnRemove"
+                android:id="@+id/btnRemoveFromJournal" />
 
         </LinearLayout>
 

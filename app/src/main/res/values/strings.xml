@@ -4,6 +4,8 @@
     <string name="btnAdd">Add</string>
     <string name="btnRemove">Remove</string>
     <string name="edtextName">Name</string>
+    <string name="delEJItem">Delete item</string>
+    <string name="delExpenseItem">Delete item</string>
     <string-array name="menu_items">
         <item>user list</item>
         <item>expense dictionary</item>

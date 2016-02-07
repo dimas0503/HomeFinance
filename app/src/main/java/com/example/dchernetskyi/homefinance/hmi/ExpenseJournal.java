@@ -1,15 +1,23 @@
 package com.example.dchernetskyi.homefinance.hmi;
 
-import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.view.ActionMode;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.ContextMenu;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -27,7 +35,10 @@ import java.util.Map;
 /**
  * Created by Dima on 07.01.2016.
  */
-public class ExpenseJournal extends Activity implements OnClickListener{
+public class ExpenseJournal extends Fragment {
+
+
+    private ActionMode actionMode;
 
     private Cursor cursorUserList;
     private Cursor cursorExpensesList;
@@ -55,76 +66,38 @@ public class ExpenseJournal extends Activity implements OnClickListener{
     private EditText etMoneySpend;
     private ListView lvExpensesJournal;
     private TextView etJournalComment;
+    private Button btnAddNewExpense;
+    private Button btnRemoveExpenseItems;
 
     private String TAG = "MY_LOG";
 
+    View rootView;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.expense_journal);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        rootView = inflater.inflate(R.layout.expense_journal, container, false);
+        Bundle args = getArguments();
 
-        spinnerUserName = (Spinner) findViewById(R.id.spinUserName);
-        spinnerExpenseItems = (Spinner) findViewById(R.id.spinExpenseList);
-        cvJournalDate = (CalendarView) findViewById(R.id.calViewJournalDate);
-        etMoneySpend = (EditText) findViewById(R.id.etValueSpend);
-        lvExpensesJournal = (ListView) findViewById(R.id.lvExpenseJournal);
-        etJournalComment = (TextView) findViewById(R.id.etComment);
+        spinnerUserName = (Spinner) rootView.findViewById(R.id.spinUserName);
+        spinnerExpenseItems = (Spinner) rootView.findViewById(R.id.spinExpenseList);
+        cvJournalDate = (CalendarView) rootView.findViewById(R.id.calViewJournalDate);
+        etMoneySpend = (EditText) rootView.findViewById(R.id.etValueSpend);
+        lvExpensesJournal = (ListView) rootView.findViewById(R.id.lvExpenseJournal);
+        etJournalComment = (TextView) rootView.findViewById(R.id.etComment);
 
-        contextMenu = new HashMap<>();
-        contextMenu.put(1,"remove record");
+        btnAddNewExpense = (Button) rootView.findViewById(R.id.btnAddToJournal);
+        btnRemoveExpenseItems = (Button) rootView.findViewById(R.id.btnRemoveFromJournal);
 
-        service = new Service(getApplicationContext());
-        updateUserList();
-        updateExpenseList();
-        updateExpenseJournal();
-        registerForContextMenu(lvExpensesJournal);
-    }
+        btnRemoveExpenseItems.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View lvTest = ((ListView) lvExpensesJournal.getAdapter().getItem(1));
+            }
+        });
 
-    private void updateUserList(){
-        cursorUserList = service.getUserList();
-        scAdapterUserList = new SimpleCursorAdapter(this,R.layout.expense_journal_spin_user_list_item, cursorUserList, fromUserList, toUserList, 1);
-        spinnerUserName.setAdapter(scAdapterUserList);
-    }
-
-    private void updateExpenseList(){
-        cursorExpensesList = service.getExpenseList();
-        scAdapterExpensesList = new SimpleCursorAdapter(this,R.layout.expense_journal_spin_expense_list_item, cursorExpensesList, fromExpenseList, toExpenseList, 1);
-        spinnerExpenseItems.setAdapter(scAdapterExpensesList);
-    }
-
-    private void updateExpenseJournal(){
-        lvExpensesJournal.setAdapter(service.getExpensesJournal());
-
-    }
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        switch (v.getId()){
-            case R.id.lvExpenseJournal:
-                menu.add(0,1,0,contextMenu.get(1));
-                break;
-        }
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case 1:
-                AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-                service.delJournalRecord(acmi.id);
-                updateExpenseJournal();
-                return true;
-        }
-        return super.onContextItemSelected(item);
-    }
-
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.btnAddToJournal:
+        btnAddNewExpense.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 boolean canInsert = true;
                 String userName = ((TextView) spinnerUserName.getSelectedView().findViewById(R.id.spinUserListItem)).getText().toString();
                 String expenseItem = ((TextView) spinnerExpenseItems.getSelectedView().findViewById(R.id.spinExpenseListItem)).getText().toString();
@@ -132,18 +105,78 @@ public class ExpenseJournal extends Activity implements OnClickListener{
                 if(etMoneySpend != null && etMoneySpend.getText().toString().equals("") == false){
                     spendAmount = Double.parseDouble(etMoneySpend.getText().toString());
                 }else {
-                    Toast.makeText(this,"fill money spend",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),"fill money spend",Toast.LENGTH_SHORT).show();
                     return;
                 }
                 String comment = etJournalComment.getText().toString();
 
                 Log.d(TAG, cvJournalDate.getDate() + "|" + etMoneySpend + " | " + " | " + userName + " | " + spendAmount + "");
                 service.storeToJournal(cvJournalDate.getDate(), userName, expenseItem, spendAmount,comment);
-                Toast.makeText(this,"Record added",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"Record added",Toast.LENGTH_SHORT).show();
                 etMoneySpend.setText(null);
                 etJournalComment.setText(null);
                 updateExpenseJournal();
+            }
+        });
+
+
+        contextMenu = new HashMap<>();
+        contextMenu.put(1, "remove record");
+
+        service = new Service(getContext());
+        updateUserList();
+        updateExpenseList();
+        updateExpenseJournal();
+        registerForContextMenu(lvExpensesJournal);
+
+        return rootView;
+    }
+
+    private void updateUserList(){
+        cursorUserList = service.getUserList();
+        scAdapterUserList = new SimpleCursorAdapter(getContext(),R.layout.expense_journal_spin_user_list_item, cursorUserList, fromUserList, toUserList, 1);
+        spinnerUserName.setAdapter(scAdapterUserList);
+    }
+
+    private void updateExpenseList(){
+        cursorExpensesList = service.getExpenseList();
+        scAdapterExpensesList = new SimpleCursorAdapter(getContext(),R.layout.expense_journal_spin_expense_list_item, cursorExpensesList, fromExpenseList, toExpenseList, 1);
+        spinnerExpenseItems.setAdapter(scAdapterExpensesList);
+    }
+
+    private void updateExpenseJournal(){
+        lvExpensesJournal.setAdapter(service.getExpensesJournal());
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.expense_journal,menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+/*
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+
+        super.onCreateContextMenu(menu, v, menuInfo);
+        switch (v.getId()){
+            case R.id.lvExpenseJournal:
+                menu.add(0, 1, 0, contextMenu.get(1));
                 break;
+        }
+    }
+*/
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.deleteEJItem:
+                AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+                service.delJournalRecord(acmi.id);
+                updateExpenseJournal();
+                return true;
+            default:
+                return super.onContextItemSelected(item);
         }
     }
 }

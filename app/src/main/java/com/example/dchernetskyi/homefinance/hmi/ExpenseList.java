@@ -7,6 +7,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,6 +75,14 @@ public class ExpenseList extends Fragment{
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.expense_journal,menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+/*
+
+    @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         switch (v.getId()){
@@ -82,15 +92,18 @@ public class ExpenseList extends Fragment{
         }
     }
 
+*/
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case 1:
+        switch (item.getItemId() ){
+            case R.id.delExpenseItem:
                 AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
                 service.delExpenseItem(acmi.id);
                 updateExpenseItemList();
                 return true;
+            default:
+                return super.onContextItemSelected(item);
         }
-        return super.onContextItemSelected(item);
+
     }
 }
