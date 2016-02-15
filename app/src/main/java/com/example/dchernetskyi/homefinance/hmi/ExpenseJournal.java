@@ -29,8 +29,10 @@ import com.example.dchernetskyi.homefinance.R;
 import com.example.dchernetskyi.homefinance.dao.HFDB;
 import com.example.dchernetskyi.homefinance.service.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by Dima on 07.01.2016.
@@ -91,7 +93,15 @@ public class ExpenseJournal extends Fragment {
         btnRemoveExpenseItems.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                View lvTest = ((ListView) lvExpensesJournal.getAdapter().getItem(1));
+                CheckBox checkBox;
+                for (int i =0; i< lvExpensesJournal.getChildCount(); i++){
+                    checkBox = (CheckBox) lvExpensesJournal.getChildAt(i).findViewById(R.id.exJournalCheckBox);
+                    if (checkBox.isChecked()){
+                        Log.d(TAG,i+" "+checkBox+"|"+lvExpensesJournal.getAdapter().getItemId(i));
+                        service.delJournalRecord(lvExpensesJournal.getAdapter().getItemId(i));
+                        updateExpenseJournal();
+                    }
+                }
             }
         });
 
@@ -144,7 +154,7 @@ public class ExpenseJournal extends Fragment {
         spinnerExpenseItems.setAdapter(scAdapterExpensesList);
     }
 
-    private void updateExpenseJournal(){
+    private void updateExpenseJournal() {
         lvExpensesJournal.setAdapter(service.getExpensesJournal());
     }
 
@@ -153,19 +163,6 @@ public class ExpenseJournal extends Fragment {
         inflater.inflate(R.menu.expense_journal,menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
-
-/*
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-
-        super.onCreateContextMenu(menu, v, menuInfo);
-        switch (v.getId()){
-            case R.id.lvExpenseJournal:
-                menu.add(0, 1, 0, contextMenu.get(1));
-                break;
-        }
-    }
-*/
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
