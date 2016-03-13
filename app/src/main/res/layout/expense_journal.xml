@@ -35,7 +35,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
+                android:inputType="numberDecimal|numberSigned"
                 android:ems="10"
                 android:hint="spend amount"
                 android:id="@+id/etValueSpend" />
